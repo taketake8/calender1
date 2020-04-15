@@ -1,29 +1,50 @@
-<p id="notice"><%= notice %></p>
+<div class = "header">
+</div>
 
-<h1>Schedules</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Start time</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @schedules.each do |schedule| %>
-      <tr>
-        <td><%= schedule.start_time %></td>
-        <td><%= link_to 'Show', schedule %></td>
-        <td><%= link_to 'Edit', edit_schedule_path(schedule) %></td>
-        <td><%= link_to 'Destroy', schedule, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<div class = "contents">
+  <div class = "calendars">
+    <%= month_calendar events: @schedules do |date, schedules| %>
+      <%= date.day %>
+      <%array = []%>
+      <% schedules.each do |schedule| %>
+        <% array << schedule.price%>
+      <% end %>
+      <div>
+      <%= array.sum%>
+      <div>
     <% end %>
-  </tbody>
-</table>
+  </div>
 
-<br>
+  <div class = "side-bar">
+    <p id="notice"><%= notice %></p>
 
-<%= link_to 'New Schedule', new_schedule_path %>
+      <h1>支出</h1>
+
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @schedules.each do |schedule| %>
+            <tr>
+              <td><%= schedule.start_time.day %></td>
+              <td><%= schedule.memo%></td>
+              <td><%= link_to 'Show', schedule %></td>
+              <td><%= link_to 'Edit', edit_schedule_path(schedule) %></td>
+              <td><%= link_to 'Destroy', schedule, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <br>
+
+      <%= link_to '支出を入力', new_schedule_path %>
+  </div>
+</div>
 
 
