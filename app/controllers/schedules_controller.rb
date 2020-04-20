@@ -1,10 +1,11 @@
 class SchedulesController < ApplicationController
   before_action :set_schedule, only: [:show, :edit, :update, :destroy]
+  before_action :redirect_to_index, :except => [:index, :show]
 
   # GET /schedules
   # GET /schedules.json
   def index
-    @schedules = Schedule.all
+    @schedules = Schedule.where(user_id: current_user.id).includes(:user)
   end
 
   # GET /schedules/1
@@ -23,8 +24,8 @@ class SchedulesController < ApplicationController
 
   # POST /schedules
   # POST /schedules.json
-  def create
-    @schedule = Schedule.new(schedule_params)
+  def create    
+    @schedule = Schedule.where(user_id: current_user.id).new(schedule_params)
 
     respond_to do |format|
       if @schedule.save
@@ -69,6 +70,12 @@ class SchedulesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def schedule_params
-      params.require(:schedule).permit(:start_time,:price,:memo)
+      params.require(:schedule).permit(:start_time, :price, :memo).merge(user_id: current_user.id)
     end
+
+    def redirect_to_index
+      redirect_to :action => "index" unless user_signed_in?
+    end
+
+
 end

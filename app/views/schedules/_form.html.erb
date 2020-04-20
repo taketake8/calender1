@@ -1,7 +1,7 @@
 <%= form_with(model: schedule, local: true) do |form| %>
   <% if schedule.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(schedule.errors.count, "error") %> prohibited this schedule from being saved:</h2>
+      <h2><%= pluralize(schedule.errors.count, "つのエラー") %> があります</h2>
 
       <ul>
       <% schedule.errors.full_messages.each do |message| %>
@@ -13,13 +13,13 @@
 
   <div class="field">
     <%= form.date_select :start_time %>
-    <%= form.label :支出 %>
-    <%= form.number_field :price, step:-1%>
+    <%= form.label :金額 %>
+    <%= form.number_field :price ,max:-1%>
     <%= form.label :メモ %>
     <%= form.text_field :memo %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit :支出を入力する%>
   </div>
 <% end %>
